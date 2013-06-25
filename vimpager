@@ -456,7 +456,11 @@ if [ -n "${cygwin}" ]; then
 	filename=$(cygpath -w "${filename}")
 fi
 
-less_vim -c "${extra_c:-echo}" --cmd "${extra_cmd:-echo}" "${filename}" </dev/tty
+if [ -e /dev/tty ]; then
+    less_vim -c "${extra_c:-echo}" --cmd "${extra_cmd:-echo}" "${filename}" </dev/tty
+else
+    less_vim -c "${extra_c:-echo}" --cmd "${extra_cmd:-echo}" "${filename}" </dev/tty
+fi
 
 # Give gvim/mvim time to open the file.
 # On Win32 we must also wait for the process to exit before the file can
